@@ -177,6 +177,63 @@
   border-color: var(--ocean-sidebar-border);
 }
 
+.vp-doc .availability-card {
+  margin: 24px 0;
+  padding: 16px 18px;
+  border: 1px solid var(--ocean-sidebar-border);
+  border-radius: 12px;
+}
+
+.vp-doc .availability-card p {
+  margin: 4px 0;
+}
+
+.vp-doc .availability-note {
+  color: var(--ocean-text-muted);
+}
+
+.feature-index {
+  display: grid;
+  gap: 12px;
+  margin: 20px 0 28px;
+}
+
+.feature-index a {
+  display: grid;
+  gap: 5px;
+  padding: 16px 18px;
+  color: var(--ocean-text);
+  text-decoration: none;
+  background: var(--ocean-sidebar);
+  border: 1px solid var(--ocean-sidebar-border);
+  border-radius: 12px;
+}
+
+.feature-index a:hover {
+  background: var(--ocean-sidebar-row-hover);
+  border-color: var(--ocean-focus);
+}
+
+.feature-index span {
+  color: var(--ocean-text-muted);
+  line-height: 1.55;
+}
+
+.capture-placeholder {
+  display: grid;
+  gap: 6px;
+  margin: 24px 0;
+  padding: 28px;
+  color: var(--ocean-text-muted);
+  background: var(--ocean-sidebar);
+  border: 1px dashed var(--ocean-sidebar-border);
+  border-radius: 12px;
+}
+
+.capture-placeholder strong {
+  color: var(--ocean-text);
+}
+
 .VPDocFooter .pager-link:hover {
   background: var(--ocean-sidebar-row-hover);
   border-color: var(--ocean-focus);
@@ -187,6 +244,15 @@
 }
 
 .theme-picture img {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--ocean-sidebar-border);
+  border-radius: 12px;
+  background: var(--ocean-sidebar);
+}
+
+.theme-picture video {
+  display: block;
   width: 100%;
   height: auto;
   border: 1px solid var(--ocean-sidebar-border);
