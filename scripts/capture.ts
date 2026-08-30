@@ -302,14 +302,14 @@ async function inspectMedia(
   if (output.type !== "webm" && output.type !== "mp4") return {};
   const mimeType = output.type === "webm" ? "video/webm" : "video/mp4";
   const source = `data:${mimeType};base64,${bytes}`;
-  await page.setContent('<video id="capture-video" preload="auto"></video>');
+  await page.setContent('<video id="capture-video" preload="auto" muted></video>');
   await page.evaluate((videoSource) => {
     const video = document.querySelector<HTMLVideoElement>("#capture-video");
     if (!video) throw new Error("Video validator could not create its media element.");
     video.addEventListener(
-      "canplay",
+      "loadedmetadata",
       () => {
-        document.body.dataset.mediaState = "ready";
+        document.body.dataset.mediaState = "metadata";
       },
       { once: true },
     );
@@ -324,17 +324,41 @@ async function inspectMedia(
     video.load();
   }, source);
   await page.waitForFunction(() => document.body.dataset.mediaState !== undefined);
-  const result = await page.evaluate(() => {
+  const metadata = await page.evaluate(() => {
     const video = document.querySelector<HTMLVideoElement>("#capture-video");
     return {
       state: document.body.dataset.mediaState,
       duration: video?.duration ?? Number.NaN,
     };
   });
-  if (result.state !== "ready" || !Number.isFinite(result.duration) || result.duration <= 0) {
+  if (
+    metadata.state !== "metadata" ||
+    !Number.isFinite(metadata.duration) ||
+    metadata.duration <= 0
+  ) {
     throw new Error(`Chromium could not decode ${output.path}.`);
   }
-  return { durationSeconds: result.duration };
+  await page.evaluate(async () => {
+    const video = document.querySelector<HTMLVideoElement>("#capture-video");
+    if (!video) throw new Error("Video validator lost its media element.");
+    video.addEventListener(
+      "ended",
+      () => {
+        document.body.dataset.mediaState = "ended";
+      },
+      { once: true },
+    );
+    await video.play();
+  });
+  await page.waitForFunction(
+    () => ["ended", "error"].includes(document.body.dataset.mediaState ?? ""),
+    undefined,
+    { timeout: Math.ceil(metadata.duration * 1000) + 5_000 },
+  );
+  if ((await page.evaluate(() => document.body.dataset.mediaState)) !== "ended") {
+    throw new Error(`Chromium could not decode ${output.path} through its end.`);
+  }
+  return { durationSeconds: metadata.duration };
 }
 
 async function captureRecipe(options: CaptureOptions): Promise<void> {
