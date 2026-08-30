@@ -17,4 +17,15 @@ It retains the upstream Apache-2.0 license and `NOTICE` in:
 
 ## LastCode brand assets
 
-No LastCode brand assets are present yet. When the site adds one, place it below `docs/public/brand/`. Add its source commit and MIT notice here.
+Files below `docs/public/brand/` are copied or derived from [`lastobelus/lastCode`](https://github.com/lastobelus/lastCode) at commit `ec892230127238e390b79d84636b622ac1f1af02`:
+
+- `wordmark.svg`, `wordmark-light.svg`, and `wordmark-dark.svg` come from `assets/lastcode/shared/wordmark.svg`.
+- `favicon.ico`, `favicon-16x16.png`, `favicon-32x32.png`, and `apple-touch-icon-180.png` come from `assets/lastcode/prod/`.
+
+They retain the upstream MIT notice in `docs/public/brand/LICENSE.txt`. The light and dark wordmarks change only the source paths' fill colors for legibility against the Ocean navigation background.
+
+## LastCode feature registry
+
+`docs/.vitepress/data/lastcode-features.json` is copied from `docs/lastcode/features.json` in [`lastobelus/lastCode`](https://github.com/lastobelus/lastCode) at commit `ec892230127238e390b79d84636b622ac1f1af02`.
+
+It retains the upstream MIT notice in `docs/.vitepress/data/LICENSE.txt`.
