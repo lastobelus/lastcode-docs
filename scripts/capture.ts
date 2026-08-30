@@ -8,10 +8,9 @@ import * as NodePath from "node:path";
 import * as NodeProcess from "node:process";
 import { once } from "node:events";
 
-import { chromium, type BrowserContext, type Page, type Video } from "playwright";
+import { chromium, type BrowserContext, type Page } from "playwright";
 
 import {
-  ffprobeDuration,
   pngDimensions,
   readMediaManifest,
   sha256File,
@@ -113,7 +112,7 @@ function startFixture(lastcodeRoot: string, commit: string, outputDirectory: str
     },
   );
   let outputTail = "";
-  let pending = "";
+  let pendingStdout = "";
   const ready = new Promise<FixtureMetadata>((resolve, reject) => {
     const timeout = setTimeout(() => {
       reject(
@@ -129,11 +128,11 @@ function startFixture(lastcodeRoot: string, commit: string, outputDirectory: str
       if (result.error) reject(result.error);
       else resolve(result.value as FixtureMetadata);
     };
-    const inspect = (chunk: string) => {
+    const inspectStdout = (chunk: string) => {
       outputTail = `${outputTail}${chunk}`.slice(-32_000);
-      pending += chunk;
-      const lines = pending.split(/\r?\n/u);
-      pending = lines.pop() ?? "";
+      pendingStdout += chunk;
+      const lines = pendingStdout.split(/\r?\n/u);
+      pendingStdout = lines.pop() ?? "";
       for (const line of lines) {
         if (!line.startsWith(READY_PREFIX)) continue;
         try {
@@ -148,6 +147,9 @@ function startFixture(lastcodeRoot: string, commit: string, outputDirectory: str
         return;
       }
     };
+    const inspectStderr = (chunk: string) => {
+      outputTail = `${outputTail}${chunk}`.slice(-32_000);
+    };
     const onError = (error: Error) => finish({ error });
     const onClose = (code: number | null, signal: NodeJS.Signals | null) =>
       finish({
@@ -159,8 +161,8 @@ function startFixture(lastcodeRoot: string, commit: string, outputDirectory: str
     child.once("close", onClose);
     child.stdout?.setEncoding("utf8");
     child.stderr?.setEncoding("utf8");
-    child.stdout?.on("data", inspect);
-    child.stderr?.on("data", inspect);
+    child.stdout?.on("data", inspectStdout);
+    child.stderr?.on("data", inspectStderr);
   });
   return { child, ready };
 }
@@ -217,6 +219,7 @@ function createCaptureRecord(
   manifest: MediaManifest,
   commit: string,
   recipeHash: string,
+  durationSeconds?: number,
 ): CaptureRecord {
   const record: CaptureRecord = {
     lastcodeCommit: commit,
@@ -232,7 +235,7 @@ function createCaptureRecord(
     record.width = dimensions.width;
     record.height = dimensions.height;
   } else if (output.type === "webm") {
-    record.durationSeconds = ffprobeDuration(path);
+    record.durationSeconds = durationSeconds;
   }
   return record;
 }
@@ -251,6 +254,87 @@ async function materializeOutput(
     await NodeFSP.copyFile(temporaryPath, readmePath);
   }
   output.record = record;
+}
+
+async function inspectMedia(
+  page: Page,
+  path: string,
+  output: MediaOutput,
+): Promise<{ width?: number; height?: number; durationSeconds?: number }> {
+  const bytes = NodeFS.readFileSync(path).toString("base64");
+  if (output.type === "png" || output.type === "poster") {
+    const source = `data:image/png;base64,${bytes}`;
+    await page.setContent('<img id="capture-image" alt="">');
+    await page.evaluate((imageSource) => {
+      const image = document.querySelector<HTMLImageElement>("#capture-image");
+      if (!image) throw new Error("Image validator could not create its media element.");
+      image.addEventListener(
+        "load",
+        () => {
+          document.body.dataset.mediaState = "ready";
+        },
+        { once: true },
+      );
+      image.addEventListener(
+        "error",
+        () => {
+          document.body.dataset.mediaState = "error";
+        },
+        { once: true },
+      );
+      image.src = imageSource;
+    }, source);
+    await page.waitForFunction(() => document.body.dataset.mediaState !== undefined);
+    const result = await page.evaluate(() => {
+      const image = document.querySelector<HTMLImageElement>("#capture-image");
+      return {
+        state: document.body.dataset.mediaState,
+        width: image?.naturalWidth ?? 0,
+        height: image?.naturalHeight ?? 0,
+      };
+    });
+    if (result.state !== "ready" || result.width <= 0 || result.height <= 0) {
+      throw new Error(`Chromium could not decode ${output.path}.`);
+    }
+    return { width: result.width, height: result.height };
+  }
+
+  if (output.type !== "webm" && output.type !== "mp4") return {};
+  const mimeType = output.type === "webm" ? "video/webm" : "video/mp4";
+  const source = `data:${mimeType};base64,${bytes}`;
+  await page.setContent('<video id="capture-video" preload="auto"></video>');
+  await page.evaluate((videoSource) => {
+    const video = document.querySelector<HTMLVideoElement>("#capture-video");
+    if (!video) throw new Error("Video validator could not create its media element.");
+    video.addEventListener(
+      "canplay",
+      () => {
+        document.body.dataset.mediaState = "ready";
+      },
+      { once: true },
+    );
+    video.addEventListener(
+      "error",
+      () => {
+        document.body.dataset.mediaState = "error";
+      },
+      { once: true },
+    );
+    video.src = videoSource;
+    video.load();
+  }, source);
+  await page.waitForFunction(() => document.body.dataset.mediaState !== undefined);
+  const result = await page.evaluate(() => {
+    const video = document.querySelector<HTMLVideoElement>("#capture-video");
+    return {
+      state: document.body.dataset.mediaState,
+      duration: video?.duration ?? Number.NaN,
+    };
+  });
+  if (result.state !== "ready" || !Number.isFinite(result.duration) || result.duration <= 0) {
+    throw new Error(`Chromium could not decode ${output.path}.`);
+  }
+  return { durationSeconds: result.duration };
 }
 
 async function captureRecipe(options: CaptureOptions): Promise<void> {
@@ -312,9 +396,6 @@ async function captureRecipe(options: CaptureOptions): Promise<void> {
       locale: manifest.toolchain.locale,
       colorScheme: options.appearance,
       reducedMotion: manifest.toolchain.reducedMotion,
-      recordVideo: videoOutput
-        ? { dir: NodePath.join(temporaryRoot, "video"), size: manifest.toolchain.viewport }
-        : undefined,
     });
     await context.addInitScript(({ appearance }) => {
       window.localStorage.setItem("t3code:theme", "ocean");
@@ -322,7 +403,6 @@ async function captureRecipe(options: CaptureOptions): Promise<void> {
       window.localStorage.setItem("t3code:theme-appearance-mode", appearance);
     }, { appearance: options.appearance });
     const page = await context.newPage();
-    const video: Video | null = page.video();
     await preparePage(page, fixture, options.appearance);
     const recipeContext = {
       page,
@@ -344,20 +424,32 @@ async function captureRecipe(options: CaptureOptions): Promise<void> {
         temporaryOutputs.set(output.id, temporaryPath);
       }
     }
-    if (videoOutput) await recipe.record!(recipeContext);
-    await context.close();
-    context = undefined;
+    const durations = new Map<string, number>();
     if (videoOutput) {
-      if (!video) throw new Error("Playwright did not create the planned video.");
       const temporaryPath = NodePath.join(
         temporaryRoot,
         "outputs",
         NodePath.basename(videoOutput.path),
       );
       await makeDirectoryFor(temporaryPath);
-      await video.saveAs(temporaryPath);
+      await page.screencast.start({
+        path: temporaryPath,
+        size: manifest.toolchain.viewport,
+      });
+      try {
+        await recipe.record!(recipeContext);
+      } finally {
+        await page.screencast.stop();
+      }
       temporaryOutputs.set(videoOutput.id, temporaryPath);
+      const inspection = await inspectMedia(page, temporaryPath, videoOutput);
+      if (inspection.durationSeconds === undefined) {
+        throw new Error(`Could not read the duration of ${videoOutput.id}.`);
+      }
+      durations.set(videoOutput.id, inspection.durationSeconds);
     }
+    await context.close();
+    context = undefined;
 
     const recipeHash = sha256File(NodePath.join(REPOSITORY_ROOT, manifestRecipe.sourceFile!));
     for (const output of outputs) {
@@ -369,6 +461,7 @@ async function captureRecipe(options: CaptureOptions): Promise<void> {
         manifest,
         options.commit,
         recipeHash,
+        durations.get(output.id),
       );
       await materializeOutput(temporaryPath, output, record);
     }
@@ -393,16 +486,16 @@ async function validatePlaywrightPin(manifest: MediaManifest): Promise<void> {
 
 async function validatePinnedBrowserMedia(manifest: MediaManifest): Promise<void> {
   await validatePlaywrightPin(manifest);
-  const videos = manifest.recipes
+  const media = manifest.recipes
     .filter(({ enabled }) => enabled)
     .flatMap((recipe) =>
       recipe.outputs.filter(
         (output) =>
           recipe.appearances[output.appearance] &&
-          (output.type === "webm" || output.type === "mp4"),
+          output.type !== "text",
       ),
     );
-  if (videos.length === 0) return;
+  if (media.length === 0) return;
 
   let browser: Awaited<ReturnType<typeof chromium.launch>>;
   try {
@@ -419,41 +512,19 @@ async function validatePinnedBrowserMedia(manifest: MediaManifest): Promise<void
       );
     }
     const page = await browser.newPage();
-    for (const output of videos) {
+    for (const output of media) {
       const path = NodePath.join(REPOSITORY_ROOT, output.path);
-      const mimeType = output.type === "webm" ? "video/webm" : "video/mp4";
-      const source = `data:${mimeType};base64,${NodeFS.readFileSync(path).toString("base64")}`;
-      await page.setContent('<video id="capture-video" preload="auto"></video>');
-      await page.evaluate((videoSource) => {
-        const video = document.querySelector<HTMLVideoElement>("#capture-video");
-        if (!video) throw new Error("Video validator could not create its media element.");
-        video.addEventListener(
-          "canplay",
-          () => {
-            document.body.dataset.videoState = "ready";
-          },
-          { once: true },
-        );
-        video.addEventListener(
-          "error",
-          () => {
-            document.body.dataset.videoState = "error";
-          },
-          { once: true },
-        );
-        video.src = videoSource;
-        video.load();
-      }, source);
-      await page.waitForFunction(() => document.body.dataset.videoState !== undefined);
-      const result = await page.evaluate(() => {
-        const video = document.querySelector<HTMLVideoElement>("#capture-video");
-        return {
-          state: document.body.dataset.videoState,
-          duration: video?.duration ?? Number.NaN,
-        };
-      });
-      if (result.state !== "ready") throw new Error(`Chromium could not decode ${output.path}.`);
-      if (Math.abs(result.duration - (output.record?.durationSeconds ?? 0)) > 0.05) {
+      const result = await inspectMedia(page, path, output);
+      if (output.type === "png" || output.type === "poster") {
+        if (
+          result.width !== output.record?.width ||
+          result.height !== output.record?.height
+        ) {
+          throw new Error(`Output ${output.id} has stale dimensions.`);
+        }
+      } else if (
+        Math.abs((result.durationSeconds ?? 0) - (output.record?.durationSeconds ?? 0)) > 0.05
+      ) {
         throw new Error(`Output ${output.id} has a stale duration.`);
       }
     }
@@ -482,6 +553,6 @@ export async function runCaptureCli(
 if (import.meta.main) {
   runCaptureCli().catch((error) => {
     NodeProcess.stderr.write(`${error instanceof Error ? error.message : String(error)}\n`);
-    NodeProcess.exitCode = 1;
+    process.exitCode = 1;
   });
 }

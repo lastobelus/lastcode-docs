@@ -76,13 +76,16 @@ test("PNG metadata and hashes come from committed bytes", () => {
   const directory = NodeFS.mkdtempSync(NodePath.join(NodeOS.tmpdir(), "capture-test-"));
   try {
     const path = NodePath.join(directory, "still.png");
-    const bytes = Buffer.alloc(24);
-    Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]).copy(bytes);
-    bytes.writeUInt32BE(1440, 16);
-    bytes.writeUInt32BE(900, 20);
+    const bytes = Buffer.from(
+      "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=",
+      "base64",
+    );
     NodeFS.writeFileSync(path, bytes);
-    assert.deepEqual(pngDimensions(path), { width: 1440, height: 900 });
+    assert.deepEqual(pngDimensions(path), { width: 1, height: 1 });
     assert.match(sha256File(path), /^[0-9a-f]{64}$/u);
+
+    NodeFS.writeFileSync(path, bytes.subarray(0, bytes.length - 8));
+    assert.throws(() => pngDimensions(path), /truncated|incomplete/u);
   } finally {
     NodeFS.rmSync(directory, { recursive: true, force: true });
   }

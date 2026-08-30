@@ -1,4 +1,3 @@
-import * as NodeChildProcess from "node:child_process";
 import * as NodeCrypto from "node:crypto";
 import * as NodeFS from "node:fs";
 import * as NodePath from "node:path";
@@ -27,28 +26,52 @@ export function sha256File(path: string): string {
 export function pngDimensions(path: string): { width: number; height: number } {
   const bytes = NodeFS.readFileSync(path);
   const signature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
-  if (bytes.length < 24 || !bytes.subarray(0, 8).equals(signature)) {
+  if (bytes.length < 45 || !bytes.subarray(0, 8).equals(signature)) {
     throw new Error(`${path} is not a decodable PNG.`);
   }
-  return { width: bytes.readUInt32BE(16), height: bytes.readUInt32BE(20) };
-}
-
-export function ffprobeDuration(path: string): number {
-  const result = NodeChildProcess.spawnSync(
-    "ffprobe",
-    ["-v", "error", "-show_entries", "format=duration", "-of", "json", path],
-    { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] },
-  );
-  if (result.error || result.status !== 0) {
-    throw new Error(`ffprobe could not decode ${path}: ${result.stderr.trim()}`);
+  let offset = 8;
+  let dimensions: { width: number; height: number } | undefined;
+  let hasImageData = false;
+  let complete = false;
+  while (offset < bytes.length) {
+    if (offset + 12 > bytes.length) throw new Error(`${path} has a truncated PNG chunk.`);
+    const length = bytes.readUInt32BE(offset);
+    const chunkEnd = offset + 12 + length;
+    if (chunkEnd > bytes.length) throw new Error(`${path} has a truncated PNG chunk.`);
+    const type = bytes.subarray(offset + 4, offset + 8).toString("ascii");
+    const expectedCrc = bytes.readUInt32BE(offset + 8 + length);
+    let crc = 0xffff_ffff;
+    for (const byte of bytes.subarray(offset + 4, offset + 8 + length)) {
+      crc ^= byte;
+      for (let bit = 0; bit < 8; bit += 1) {
+        crc = (crc >>> 1) ^ ((crc & 1) === 1 ? 0xedb8_8320 : 0);
+      }
+    }
+    if (((crc ^ 0xffff_ffff) >>> 0) !== expectedCrc) {
+      throw new Error(`${path} has a corrupt ${type} PNG chunk.`);
+    }
+    if (type === "IHDR") {
+      if (offset !== 8 || length !== 13 || dimensions) {
+        throw new Error(`${path} has an invalid PNG header.`);
+      }
+      const width = bytes.readUInt32BE(offset + 8);
+      const height = bytes.readUInt32BE(offset + 12);
+      if (width === 0 || height === 0) throw new Error(`${path} has invalid PNG dimensions.`);
+      dimensions = { width, height };
+    } else if (type === "IDAT") {
+      hasImageData = true;
+    } else if (type === "IEND") {
+      if (length !== 0 || chunkEnd !== bytes.length) {
+        throw new Error(`${path} has an invalid PNG ending.`);
+      }
+      complete = true;
+    }
+    offset = chunkEnd;
   }
-  const duration = Number(
-    (JSON.parse(result.stdout) as { format?: { duration?: string } }).format?.duration,
-  );
-  if (!Number.isFinite(duration) || duration <= 0) {
-    throw new Error(`ffprobe returned an invalid duration for ${path}.`);
+  if (!dimensions || !hasImageData || !complete) {
+    throw new Error(`${path} is an incomplete PNG.`);
   }
-  return duration;
+  return dimensions;
 }
 
 function enabledOutputs(recipe: MediaRecipe): MediaOutput[] {
