@@ -233,14 +233,14 @@ export function validateMediaManifestPlan(root: string, manifest = readMediaMani
   for (const recipe of manifest.recipes) {
     for (const output of recipe.outputs) validateOutputPlan(root, output, outputIds);
   }
-  const outputsById = new Map(
-    manifest.recipes.flatMap(({ outputs }) => outputs.map((output) => [output.id, output] as const)),
-  );
-  for (const output of outputsById.values()) {
-    if (output.type !== "webm" && output.type !== "mp4") continue;
-    const poster = outputsById.get(output.posterId as string);
-    if (poster?.type !== "poster" || poster.appearance !== output.appearance) {
-      throw new Error(`Output ${output.id} needs a poster for the same appearance.`);
+  for (const recipe of manifest.recipes) {
+    const recipeOutputs = new Map(recipe.outputs.map((output) => [output.id, output] as const));
+    for (const output of recipe.outputs) {
+      if (output.type !== "webm" && output.type !== "mp4") continue;
+      const poster = recipeOutputs.get(output.posterId as string);
+      if (poster?.type !== "poster" || poster.appearance !== output.appearance) {
+        throw new Error(`Output ${output.id} needs a same-recipe poster for its appearance.`);
+      }
     }
   }
 

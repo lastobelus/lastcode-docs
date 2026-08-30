@@ -68,7 +68,19 @@ test("movies require a same-appearance poster and transcript", () => {
   movie.appearance = "light";
   assert.throws(
     () => validateMediaManifestPlan(REPOSITORY_ROOT, manifest),
-    /poster for the same appearance/u,
+    /same-recipe poster/u,
+  );
+});
+
+test("a movie cannot borrow a poster from a disabled recipe", () => {
+  const manifest = cloneManifest();
+  const sourceRecipe = manifest.recipes[0]!;
+  const posterIndex = sourceRecipe.outputs.findIndex(({ type }) => type === "poster");
+  const [poster] = sourceRecipe.outputs.splice(posterIndex, 1);
+  manifest.recipes[1]!.outputs.push(poster!);
+  assert.throws(
+    () => validateMediaManifestPlan(REPOSITORY_ROOT, manifest),
+    /same-recipe poster/u,
   );
 });
 
