@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "sources": [
+    {
+      "name": "cursor-pstack",
+      "repository": "https://github.com/cursor/plugins.git",
+      "revision": "68836ddaf5697224520f1847d90cdb90ca8babaa",
+      "spdx": "MIT",
+      "paths": [
+        {
+          "source": "pstack/skills/unslop",
+          "destination": ".agents/skills/unslop"
+        },
+        {
+          "source": "pstack/skills/technical-writing",
+          "destination": ".agents/skills/technical-writing"
+        },
+        {
+          "source": "pstack/LICENSE",
+          "destination": ".agents/skills/vendor-licenses/cursor-pstack-MIT.txt"
+        }
+      ],
+      "licensePaths": [
+        ".agents/skills/vendor-licenses/cursor-pstack-MIT.txt"
+      ],
+      "files": [
+        {
+          "path": ".agents/skills/technical-writing/SKILL.md",
+          "sha256": "bd0cb21034f4fe6695cfdf8cd3561026eec943f0bb6e9300bc78a2b3340865a7"
+        },
+        {
+          "path": ".agents/skills/unslop/SKILL.md",
+          "sha256": "181883e539caec8258ec9129e3ba5f133409144a2cbf2aa361158ab94cfc3441"
+        },
+        {
+          "path": ".agents/skills/vendor-licenses/cursor-pstack-MIT.txt",
+          "sha256": "bc957ca6bee02792566a1a028d105e02e247c6e77cf057061674273da77b200e"
+        }
+      ]
+    },
+    {
+      "name": "microsoft-playwright",
+      "repository": "https://github.com/microsoft/playwright.git",
+      "revision": "1b44f5a441f391538c42c7ce36dd8ce779a5d6a1",
+      "spdx": "Apache-2.0",
+      "paths": [
+        {
+          "source": "packages/playwright-core/src/tools/skills/playwright-cli",
+          "destination": ".agents/skills/playwright-cli"
+        },
+        {
+          "source": "LICENSE",
+          "destination": ".agents/skills/vendor-licenses/microsoft-playwright-Apache-2.0.txt"
+        },
+        {
+          "source": "NOTICE",
+          "destination": ".agents/skills/vendor-licenses/microsoft-playwright-NOTICE.txt"
+        }
+      ],
+      "licensePaths": [
+        ".agents/skills/vendor-licenses/microsoft-playwright-Apache-2.0.txt",
+        ".agents/skills/vendor-licenses/microsoft-playwright-NOTICE.txt"
+      ],
+      "files": [
+        {
+          "path": ".agents/skills/playwright-cli/references/element-attributes.md",
+          "sha256": "bf19aa4671e0a50a0fefa9c790f39124e803060eefe395042b723c29fcb7faa2"
+        },
+        {
+          "path": ".agents/skills/playwright-cli/references/playwright-tests.md",
+          "sha256": "c5b0719fef2cfdff50bd744051b2f9afc119775db4b48e9b2882c1cf3886797c"
+        },
+        {
+          "path": ".agents/skills/playwright-cli/references/request-mocking.md",
+          "sha256": "54e801c9663fc2b6d68ceb058cb1c360724c2499f42acc7852a68e83e5b5f37c"
+        },
+        {
+          "path": ".agents/skills/playwright-cli/references/running-code.md",
+          "sha256": "d95c539a5990b71d02d8bdf1d9414df16191eb6cff95b0063820518b7a13dcb2"
+        },
+        {
+          "path": ".agents/skills/playwright-cli/references/session-management.md",
+          "sha256": "cd3e261b8763bf952f1e371b876cb78d054379afec85482f9250633e1b7e6c44"
+        },
+        {
+          "path": ".agents/skills/playwright-cli/references/storage-state.md",
+          "sha256": "9ac47f9ae4a1aedcd2077f8ac9ab1ba6bee1962cb83ff51adcd36fb6d83b5ec6"
+        },
+        {
+          "path": ".agents/skills/playwright-cli/references/test-generation.md",
+          "sha256": "12f54cfa718d9e559bad918120a4ca4f11c933167713d1b9c5f99872eddaf749"
+        },
+        {
+          "path": ".agents/skills/playwright-cli/references/tracing.md",
+          "sha256": "ef73e71bee792e341df9cd4f60529c929ade48b538ac76e033f4f20843e8dbda"
+        },
+        {
+          "path": ".agents/skills/playwright-cli/references/video-recording.md",
+          "sha256": "8555ab5400df0d90e66318aacc0a8a4418fbf872e7463824d55d5c41615abd83"
+        },
+        {
+          "path": ".agents/skills/playwright-cli/SKILL.md",
+          "sha256": "1a609c93bff3eea9ab99fed93c0334c851fdc39fb6ac5335551bfb87c171d57c"
+        },
+        {
+          "path": ".agents/skills/vendor-licenses/microsoft-playwright-Apache-2.0.txt",
+          "sha256": "45873d00a0dd243596deb4aa23b2493b3d1f0671921bf2538ea431d7380220eb"
+        },
+        {
+          "path": ".agents/skills/vendor-licenses/microsoft-playwright-NOTICE.txt",
+          "sha256": "6d602191187b35b9b01d2cffa01c8469c2c8d9de8a96f1bf868e0f264f51c81d"
+        }
+      ]
+    }
+  ]
+}
