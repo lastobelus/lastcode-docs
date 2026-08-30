@@ -12,6 +12,11 @@ pageClass: feature-page
 A short note can preserve the current purpose or unresolved question of a thread without adding a
 new chat message. Thread annotations are separate from preview annotations and diff comments.
 
+## Before you start
+
+Enable **Settings → General → Legacy features → Sidebar (legacy)**. See
+[Legacy sidebar conveniences](/features/legacy-sidebar/) if you have not used that sidebar before.
+
 ## Add and use an annotation
 
 1. In the legacy sidebar, open the thread's context menu and choose **Annotate thread…**.
