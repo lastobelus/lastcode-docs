@@ -2,8 +2,13 @@
   "name": "lastcode-docs",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "description": "Public documentation for LastCode",
   "scripts": {
+    "capture": "node scripts/capture.ts",
+    "capture:install": "playwright install chromium",
+    "capture:test": "node --test scripts/capture.test.ts",
+    "capture:validate": "node scripts/capture.ts --validate",
     "docs:build": "vitepress build docs",
     "docs:dev": "vitepress dev docs",
     "docs:preview": "vitepress preview docs",
@@ -15,6 +20,7 @@
   },
   "devDependencies": {
     "@playwright/cli": "0.1.18",
+    "playwright": "1.63.0-alpha-2026-08-05",
     "vitepress": "1.6.4"
   }
 }

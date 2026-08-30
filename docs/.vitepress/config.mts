@@ -1,5 +1,6 @@
 import { defineConfig } from "vitepress";
 
+import "./data/featureEvidence";
 import { featuredFeatures, getFeature } from "./data/featureRegistry";
 
 const featureLinks = featuredFeatures.map(({ title, pagePath }) => ({
