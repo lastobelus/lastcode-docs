@@ -11,21 +11,21 @@
     },
     "codex-thread-tools": {
       "clients": {
-        "web": { "pageCoverage": "stub", "verificationMethod": "not-verified", "checkedCommit": "ec892230127238e390b79d84636b622ac1f1af02", "captureIds": ["codex-thread-tools"] },
-        "desktop": { "pageCoverage": "stub", "verificationMethod": "not-verified", "checkedCommit": "ec892230127238e390b79d84636b622ac1f1af02", "captureIds": ["codex-thread-tools"] },
+        "web": { "pageCoverage": "documented", "verificationMethod": "source-review", "checkedCommit": "ec892230127238e390b79d84636b622ac1f1af02", "captureIds": ["codex-thread-tools"] },
+        "desktop": { "pageCoverage": "documented", "verificationMethod": "source-review", "checkedCommit": "ec892230127238e390b79d84636b622ac1f1af02", "captureIds": ["codex-thread-tools"] },
         "mobile": { "pageCoverage": "withheld", "verificationMethod": "not-verified", "checkedCommit": "ec892230127238e390b79d84636b622ac1f1af02", "captureIds": [] }
       }
     },
     "thread-annotations": {
       "clients": {
-        "web": { "pageCoverage": "stub", "verificationMethod": "not-verified", "checkedCommit": "ec892230127238e390b79d84636b622ac1f1af02", "captureIds": ["thread-annotations", "workspace-overview"] },
-        "desktop": { "pageCoverage": "stub", "verificationMethod": "not-verified", "checkedCommit": "ec892230127238e390b79d84636b622ac1f1af02", "captureIds": ["thread-annotations", "workspace-overview"] }
+        "web": { "pageCoverage": "documented", "verificationMethod": "source-review", "checkedCommit": "ec892230127238e390b79d84636b622ac1f1af02", "captureIds": ["thread-annotations", "workspace-overview"] },
+        "desktop": { "pageCoverage": "documented", "verificationMethod": "source-review", "checkedCommit": "ec892230127238e390b79d84636b622ac1f1af02", "captureIds": ["thread-annotations", "workspace-overview"] }
       }
     },
     "legacy-sidebar": {
       "clients": {
-        "web": { "pageCoverage": "stub", "verificationMethod": "not-verified", "checkedCommit": "ec892230127238e390b79d84636b622ac1f1af02", "captureIds": ["workspace-overview"] },
-        "desktop": { "pageCoverage": "stub", "verificationMethod": "not-verified", "checkedCommit": "ec892230127238e390b79d84636b622ac1f1af02", "captureIds": ["workspace-overview"] }
+        "web": { "pageCoverage": "documented", "verificationMethod": "source-review", "checkedCommit": "ec892230127238e390b79d84636b622ac1f1af02", "captureIds": ["workspace-overview"] },
+        "desktop": { "pageCoverage": "documented", "verificationMethod": "source-review", "checkedCommit": "ec892230127238e390b79d84636b622ac1f1af02", "captureIds": ["workspace-overview"] }
       }
     },
     "local-nightly-updates": {
