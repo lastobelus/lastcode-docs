@@ -70,8 +70,6 @@ LastCode does not rerun the command during recovery.
 - Agent-triggered resumable Actions must be enabled individually in project settings.
 - The resumable launch path is for Codex and Claude; other providers can still use ordinary Project
   Actions without this automatic follow-up.
-- This guide covers the shared web and desktop controls. Mobile is available in the product
-  registry, but its instructions and media remain withheld until maintainer QA is available.
 
 ## Related pages
 

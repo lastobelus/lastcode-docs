@@ -3,10 +3,13 @@ title: LastCode
 description: Install LastCode and learn the features it adds for long-running agent work.
 ---
 
+<script setup lang="ts">
+import { readmeIntro } from "./.vitepress/data/featureRegistry";
+</script>
+
 # LastCode
 
-LastCode is a personal fork of T3 Code. It keeps T3 Code's core experience and adds focused tools
-for coordinating long-running agent work.
+<p>{{ readmeIntro }}</p>
 
 LastCode is currently a source-build workflow for Apple Silicon macOS, not a public binary
 release. Its added features are experimental and have not received the same review as the smaller
