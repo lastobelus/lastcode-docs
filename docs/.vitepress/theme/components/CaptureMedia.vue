@@ -20,18 +20,18 @@ const mediaPath = (path: string) => withBase(path.replace(/^docs\/public/u, ""))
 </script>
 
 <template>
-  <ThemePicture
-    v-if="still?.record"
-    :alt="still.alt ?? ''"
-    :caption="caption"
-    :dark="mediaPath(still.path)"
-  />
-  <figure v-else-if="video?.record && poster?.record" class="theme-picture">
+  <figure v-if="video?.record && poster?.record" class="theme-picture">
     <video controls preload="metadata" :poster="mediaPath(poster.path)">
       <source :src="mediaPath(video.path)" :type="`video/${video.type}`" />
     </video>
     <figcaption>{{ caption }} {{ video.transcript }}</figcaption>
   </figure>
+  <ThemePicture
+    v-else-if="still?.record"
+    :alt="still.alt ?? ''"
+    :caption="caption"
+    :dark="mediaPath(still.path)"
+  />
   <aside v-else class="capture-placeholder">
     <strong>Demonstration planned</strong>
     <span>{{ still?.alt ?? poster?.alt ?? caption }}</span>
