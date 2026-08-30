@@ -13,6 +13,8 @@ Every delegated agent must read both files before it writes, reviews, or changes
 
 For public documentation, also read `.agents/skills/document-lastcode/SKILL.md`.
 
+Use `.agents/skills/lastcode-docs-pr/SKILL.md` when you open, babysit, or merge a pull request for this repository.
+
 For screenshots or recordings, also read:
 
 - `.agents/skills/capture-lastcode/SKILL.md`

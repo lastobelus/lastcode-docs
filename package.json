@@ -8,8 +8,10 @@
     "docs:dev": "vitepress dev docs",
     "docs:preview": "vitepress preview docs",
     "playwright-cli": "playwright-cli",
+    "pr:wait": "node scripts/wait-for-pr.mjs",
     "skills:update": "node scripts/update-vendored-skills.cjs",
-    "skills:verify": "node scripts/verify-vendored-skills.cjs"
+    "skills:verify": "node scripts/verify-vendored-skills.cjs",
+    "test:pr-wait": "node --test scripts/wait-for-pr.test.mjs"
   },
   "devDependencies": {
     "@playwright/cli": "0.1.18",
