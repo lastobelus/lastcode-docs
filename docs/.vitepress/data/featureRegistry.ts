@@ -1,4 +1,4 @@
-import registry from "./lastcode-features.json";
+import registry from "./lastcode-features.json" with { type: "json" };
 
 export const LASTCODE_FEATURE_REGISTRY_COMMIT =
   "ec892230127238e390b79d84636b622ac1f1af02";

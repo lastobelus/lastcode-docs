@@ -15,7 +15,8 @@ Create repeatable media against one named LastCode commit.
 4. For browser work, read `../playwright-cli/SKILL.md` and only the references needed for the task.
 5. Read the recipe, the media manifest, and the docs evidence entry.
 
-Run Playwright CLI through `npm exec -- playwright-cli`. Do not install it globally.
+Use Playwright CLI through `npm exec -- playwright-cli` while authoring or debugging a recipe.
+Do not install it globally.
 
 ## Data and environment
 
@@ -24,6 +25,17 @@ Run Playwright CLI through `npm exec -- playwright-cli`. Do not install it globa
 - Never read the live database, secrets, credentials, or pairing URLs.
 - Use projections for a still image. Use normal product commands for a recording that changes state.
 - Wait for explicit product signals. Do not use arbitrary sleeps.
+
+The checked-in runner owns the disposable fixture and browser lifecycle:
+
+```sh
+npm run capture:install
+npm run capture -- --lastcode-root /path/to/lastCode --commit <full-sha> --recipe <id> --appearance dark
+npm run capture:validate
+```
+
+The named LastCode checkout must be clean and at `<full-sha>`. The recipe must be enabled in
+`capture/media.json`. Run light separately only after that recipe enables it.
 
 ## Output
 

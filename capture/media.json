@@ -1,0 +1,161 @@
+{
+  "schemaVersion": 1,
+  "fixtureVersion": 1,
+  "targetCommit": null,
+  "toolchain": {
+    "playwright": "1.63.0-alpha-2026-08-05",
+    "chromiumRevision": "1237",
+    "chromiumVersion": "152.0.7977.8",
+    "locale": "en-US",
+    "viewport": { "width": 1440, "height": 900 },
+    "reducedMotion": "reduce"
+  },
+  "budgets": {
+    "pngBytes": 2097152,
+    "webmBytes": 8388608,
+    "webmSeconds": 30,
+    "manualMp4Bytes": 20971520,
+    "manualMp4Seconds": 60,
+    "totalMediaBytes": 104857600
+  },
+  "recipes": [
+    {
+      "id": "resumable-actions",
+      "kind": "browser",
+      "enabled": false,
+      "sourceFile": "capture/recipes/resumable-actions.ts",
+      "appearances": { "dark": true, "light": false },
+      "outputs": [
+        {
+          "id": "resumable-actions-still",
+          "type": "png",
+          "appearance": "dark",
+          "path": "docs/public/media/resumable-actions/dark.png",
+          "alt": "A LastCode thread in the Ocean theme with a Project Action running while the agent is paused.",
+          "license": "CC-BY-4.0"
+        },
+        {
+          "id": "resumable-actions-poster",
+          "type": "poster",
+          "appearance": "dark",
+          "path": "docs/public/media/resumable-actions/poster-dark.png",
+          "alt": "The running Project Action shown before the resumable-actions recording starts.",
+          "license": "CC-BY-4.0"
+        },
+        {
+          "id": "resumable-actions-video",
+          "type": "webm",
+          "appearance": "dark",
+          "path": "docs/public/media/resumable-actions/demo-dark.webm",
+          "posterId": "resumable-actions-poster",
+          "transcript": "Start the Preview documentation Action, pause the thread, inspect its progress, then cancel it.",
+          "license": "CC-BY-4.0"
+        }
+      ]
+    },
+    {
+      "id": "codex-thread-tools",
+      "kind": "browser",
+      "enabled": false,
+      "sourceFile": "capture/recipes/codex-thread-tools.ts",
+      "appearances": { "dark": true, "light": false },
+      "outputs": [
+        {
+          "id": "codex-thread-tools-still",
+          "type": "png",
+          "appearance": "dark",
+          "path": "docs/public/media/codex-thread-tools/dark.png",
+          "alt": "A LastCode thread showing deterministic output from the Codex thread tools.",
+          "license": "CC-BY-4.0"
+        },
+        {
+          "id": "codex-thread-tools-output",
+          "type": "text",
+          "appearance": "dark",
+          "path": "docs/public/media/codex-thread-tools/output.txt",
+          "license": "CC-BY-4.0"
+        }
+      ]
+    },
+    {
+      "id": "thread-annotations",
+      "kind": "browser",
+      "enabled": false,
+      "sourceFile": "capture/recipes/thread-annotations.ts",
+      "appearances": { "dark": true, "light": false },
+      "outputs": [
+        {
+          "id": "thread-annotations-still",
+          "type": "png",
+          "appearance": "dark",
+          "path": "docs/public/media/thread-annotations/dark.png",
+          "alt": "A thread annotation visible in LastCode chat and the legacy sidebar.",
+          "license": "CC-BY-4.0"
+        },
+        {
+          "id": "thread-annotations-poster",
+          "type": "poster",
+          "appearance": "dark",
+          "path": "docs/public/media/thread-annotations/poster-dark.png",
+          "alt": "The thread annotation shown before the annotation recording starts.",
+          "license": "CC-BY-4.0"
+        },
+        {
+          "id": "thread-annotations-video",
+          "type": "webm",
+          "appearance": "dark",
+          "path": "docs/public/media/thread-annotations/demo-dark.webm",
+          "posterId": "thread-annotations-poster",
+          "transcript": "Edit the annotation, resolve it, then reopen it from the thread.",
+          "license": "CC-BY-4.0"
+        }
+      ]
+    },
+    {
+      "id": "workspace-overview",
+      "kind": "browser",
+      "enabled": false,
+      "sourceFile": "capture/recipes/workspace-overview.ts",
+      "appearances": { "dark": true, "light": false },
+      "outputs": [
+        {
+          "id": "workspace-overview-still",
+          "type": "png",
+          "appearance": "dark",
+          "path": "docs/public/media/workspace/dark.png",
+          "readmePath": "docs/public/media/readme/workspace-dark.png",
+          "alt": "LastCode in the Ocean theme with a scaled legacy sidebar, a thread annotation, and a resumable action running in the active chat.",
+          "license": "CC-BY-4.0"
+        }
+      ]
+    },
+    {
+      "id": "local-nightly-updates",
+      "kind": "manual-cap",
+      "enabled": false,
+      "sourceFile": null,
+      "appearances": { "dark": true, "light": false },
+      "outputs": [
+        {
+          "id": "local-nightly-poster",
+          "type": "poster",
+          "appearance": "dark",
+          "path": "docs/public/media/local-nightly/poster-dark.png",
+          "readmePath": "docs/public/media/readme/local-nightly-dark.png",
+          "alt": "LastCode's desktop update panel showing release notes and progress for a local nightly build.",
+          "license": "CC-BY-4.0"
+        },
+        {
+          "id": "local-nightly-video",
+          "type": "mp4",
+          "appearance": "dark",
+          "path": "docs/public/media/local-nightly/demo-dark.mp4",
+          "posterId": "local-nightly-poster",
+          "transcript": "Inspect a synthetic local-nightly update, start its fake build, and follow the reported progress to completion.",
+          "license": "CC-BY-4.0",
+          "manualReviewRequired": true
+        }
+      ]
+    }
+  ]
+}
