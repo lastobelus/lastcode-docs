@@ -4,6 +4,7 @@ export const LASTCODE_FEATURE_REGISTRY_COMMIT =
   "ec892230127238e390b79d84636b622ac1f1af02";
 
 export const features = registry.features;
+export const readmeIntro = registry.readme.intro;
 
 export const featuredFeatures = registry.readme.featureIds.map((featureId) => {
   const feature = features.find(({ id }) => id === featureId);

@@ -4,8 +4,8 @@
   "features": {
     "resumable-actions": {
       "clients": {
-        "web": { "pageCoverage": "stub", "verificationMethod": "not-verified", "checkedCommit": "ec892230127238e390b79d84636b622ac1f1af02", "captureIds": ["resumable-actions", "workspace-overview"] },
-        "desktop": { "pageCoverage": "stub", "verificationMethod": "not-verified", "checkedCommit": "ec892230127238e390b79d84636b622ac1f1af02", "captureIds": ["resumable-actions", "workspace-overview"] },
+        "web": { "pageCoverage": "documented", "verificationMethod": "source-review", "checkedCommit": "ec892230127238e390b79d84636b622ac1f1af02", "captureIds": ["resumable-actions", "workspace-overview"] },
+        "desktop": { "pageCoverage": "documented", "verificationMethod": "source-review", "checkedCommit": "ec892230127238e390b79d84636b622ac1f1af02", "captureIds": ["resumable-actions", "workspace-overview"] },
         "mobile": { "pageCoverage": "withheld", "verificationMethod": "not-verified", "checkedCommit": "ec892230127238e390b79d84636b622ac1f1af02", "captureIds": [] }
       }
     },
