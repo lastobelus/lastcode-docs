@@ -192,6 +192,36 @@
   color: var(--ocean-text-muted);
 }
 
+.availability-key {
+  display: grid;
+  gap: 8px;
+  margin: 20px 0 24px;
+  padding: 16px 18px;
+  background: var(--ocean-sidebar);
+  border: 1px solid var(--ocean-sidebar-border);
+  border-radius: 12px;
+}
+
+.availability-key p {
+  margin: 0;
+}
+
+.availability-table-wrap {
+  overflow-x: auto;
+}
+
+.availability-table {
+  min-width: 820px;
+}
+
+.availability-table th:first-child {
+  min-width: 190px;
+}
+
+.availability-table td {
+  min-width: 145px;
+}
+
 .feature-index {
   display: grid;
   gap: 12px;
