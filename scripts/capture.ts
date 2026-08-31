@@ -96,7 +96,7 @@ export function parseCaptureArgs(argv: readonly string[]): CaptureOptions | Vali
   };
 }
 
-function redactFixtureCredentials(value: string): string {
+export function redactFixtureCredentials(value: string): string {
   return value.replace(/([#&?]token=)[^\s&"'}]+/giu, "$1[redacted]");
 }
 
@@ -194,7 +194,10 @@ async function preparePage(
   fixture: FixtureMetadata,
   appearance: Appearance,
 ): Promise<void> {
-  await page.goto(fixture.pairingUrl, { waitUntil: "domcontentloaded" });
+  await page.goto(fixture.pairingUrl, {
+    waitUntil: "domcontentloaded",
+    timeout: STARTUP_TIMEOUT_MS,
+  });
   await page.waitForFunction(
     ({ expectedAppearance }) => {
       const root = document.documentElement;
@@ -206,7 +209,7 @@ async function preparePage(
     { expectedAppearance: appearance },
   );
   await page.evaluate(async () => document.fonts.ready);
-  await page.getByTestId(`thread-row-${fixture.primaryThreadId}`).waitFor();
+  await page.getByText("Document resumable project actions", { exact: true }).waitFor();
   await page.addStyleTag({
     content:
       "input, textarea, [contenteditable='true'] { caret-color: transparent !important; }",
@@ -450,6 +453,7 @@ async function captureRecipe(options: CaptureOptions): Promise<void> {
     }
     const durations = new Map<string, number>();
     if (videoOutput) {
+      await recipe.prepareRecording?.(recipeContext);
       const temporaryPath = NodePath.join(
         temporaryRoot,
         "outputs",
@@ -576,7 +580,9 @@ export async function runCaptureCli(
 
 if (import.meta.main) {
   runCaptureCli().catch((error) => {
-    NodeProcess.stderr.write(`${error instanceof Error ? error.message : String(error)}\n`);
+    NodeProcess.stderr.write(
+      `${redactFixtureCredentials(error instanceof Error ? error.message : String(error))}\n`,
+    );
     process.exitCode = 1;
   });
 }

@@ -13,7 +13,7 @@ import {
 } from "../capture/manifest.ts";
 import type { MediaManifest } from "../capture/types.ts";
 import { joinFeatureEvidence } from "../docs/.vitepress/data/featureEvidence.ts";
-import { parseCaptureArgs } from "./capture.ts";
+import { parseCaptureArgs, redactFixtureCredentials } from "./capture.ts";
 
 const REPOSITORY_ROOT = NodePath.resolve(import.meta.dirname, "..");
 
@@ -21,7 +21,7 @@ function cloneManifest(): MediaManifest {
   return structuredClone(readMediaManifest(REPOSITORY_ROOT));
 }
 
-test("the checked-in media plan and disabled manifest are valid", () => {
+test("the checked-in media plan and manifest are valid", () => {
   validateMediaManifestPlan(REPOSITORY_ROOT);
   validateMediaManifest(REPOSITORY_ROOT);
 });
@@ -37,6 +37,7 @@ test("enabled recipes require dark output and one target commit", () => {
   );
 
   recipe.appearances.dark = true;
+  manifest.targetCommit = null;
   assert.throws(
     () => validateMediaManifestPlan(REPOSITORY_ROOT, manifest),
     /full target LastCode commit/u,
@@ -127,6 +128,15 @@ test("capture arguments bind an explicit checkout, commit, recipe, and appearanc
   assert.throws(
     () => parseCaptureArgs(["--commit", "short"]),
     /requires --lastcode-root/u,
+  );
+});
+
+test("capture errors redact disposable pairing credentials", () => {
+  assert.equal(
+    redactFixtureCredentials(
+      'page.goto failed for "http://localhost:8733/pair#token=fixture-secret"',
+    ),
+    'page.goto failed for "http://localhost:8733/pair#token=[redacted]"',
   );
 });
 
