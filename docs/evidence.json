@@ -30,7 +30,7 @@
     },
     "local-nightly-updates": {
       "clients": {
-        "desktop": { "pageCoverage": "stub", "verificationMethod": "not-verified", "checkedCommit": "ec892230127238e390b79d84636b622ac1f1af02", "captureIds": ["local-nightly-updates"] }
+        "desktop": { "pageCoverage": "documented", "verificationMethod": "source-review", "checkedCommit": "ec892230127238e390b79d84636b622ac1f1af02", "captureIds": ["local-nightly-updates"] }
       }
     }
   }
