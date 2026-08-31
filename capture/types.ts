@@ -74,6 +74,7 @@ export interface RecipeContext {
 export interface BrowserRecipe {
   id: string;
   stage(context: RecipeContext): Promise<void>;
+  prepareRecording?(context: RecipeContext): Promise<void>;
   record?(context: RecipeContext): Promise<void>;
   captureText?(context: RecipeContext): Promise<string>;
 }

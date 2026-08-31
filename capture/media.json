@@ -1,13 +1,16 @@
 {
   "schemaVersion": 1,
   "fixtureVersion": 1,
-  "targetCommit": null,
+  "targetCommit": "314e6a4bed6797e34b0ff878966d2f6aefd90d41",
   "toolchain": {
     "playwright": "1.63.0-alpha-2026-08-05",
     "chromiumRevision": "1237",
     "chromiumVersion": "152.0.7977.8",
     "locale": "en-US",
-    "viewport": { "width": 1440, "height": 900 },
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
     "reducedMotion": "reduce"
   },
   "budgets": {
@@ -22,9 +25,12 @@
     {
       "id": "resumable-actions",
       "kind": "browser",
-      "enabled": false,
+      "enabled": true,
       "sourceFile": "capture/recipes/resumable-actions.ts",
-      "appearances": { "dark": true, "light": false },
+      "appearances": {
+        "dark": true,
+        "light": false
+      },
       "outputs": [
         {
           "id": "resumable-actions-still",
@@ -32,7 +38,18 @@
           "appearance": "dark",
           "path": "docs/public/media/resumable-actions/dark.png",
           "alt": "A LastCode thread in the Ocean theme with a Project Action running while the agent is paused.",
-          "license": "CC-BY-4.0"
+          "license": "CC-BY-4.0",
+          "record": {
+            "lastcodeCommit": "314e6a4bed6797e34b0ff878966d2f6aefd90d41",
+            "recipeHash": "7e04f2e6a43ae4f8c620e78005fc4867a5fdccbc79bb6a277b47dddc12418686",
+            "fixtureVersion": 1,
+            "contentSha256": "b940b227f6611c7adcef9da6613317806444629ff94f17bc6313bc7dad82c506",
+            "bytes": 371549,
+            "playwright": "1.63.0-alpha-2026-08-05",
+            "chromiumRevision": "1237",
+            "width": 1440,
+            "height": 900
+          }
         },
         {
           "id": "resumable-actions-poster",
@@ -40,7 +57,18 @@
           "appearance": "dark",
           "path": "docs/public/media/resumable-actions/poster-dark.png",
           "alt": "The running Project Action shown before the resumable-actions recording starts.",
-          "license": "CC-BY-4.0"
+          "license": "CC-BY-4.0",
+          "record": {
+            "lastcodeCommit": "314e6a4bed6797e34b0ff878966d2f6aefd90d41",
+            "recipeHash": "7e04f2e6a43ae4f8c620e78005fc4867a5fdccbc79bb6a277b47dddc12418686",
+            "fixtureVersion": 1,
+            "contentSha256": "b940b227f6611c7adcef9da6613317806444629ff94f17bc6313bc7dad82c506",
+            "bytes": 371549,
+            "playwright": "1.63.0-alpha-2026-08-05",
+            "chromiumRevision": "1237",
+            "width": 1440,
+            "height": 900
+          }
         },
         {
           "id": "resumable-actions-video",
@@ -48,17 +76,30 @@
           "appearance": "dark",
           "path": "docs/public/media/resumable-actions/demo-dark.webm",
           "posterId": "resumable-actions-poster",
-          "transcript": "Start the Preview documentation Action, pause the thread, inspect its progress, then cancel it.",
-          "license": "CC-BY-4.0"
+          "transcript": "Start the Preview documentation Action, leave the thread idle while it runs, inspect its terminal, then cancel it.",
+          "license": "CC-BY-4.0",
+          "record": {
+            "lastcodeCommit": "314e6a4bed6797e34b0ff878966d2f6aefd90d41",
+            "recipeHash": "7e04f2e6a43ae4f8c620e78005fc4867a5fdccbc79bb6a277b47dddc12418686",
+            "fixtureVersion": 1,
+            "contentSha256": "55e217df4597636b7e34e66ad461c1fdec3f4653e5f5a50ad7f162e3b0f2b31d",
+            "bytes": 459679,
+            "playwright": "1.63.0-alpha-2026-08-05",
+            "chromiumRevision": "1237",
+            "durationSeconds": 4.28
+          }
         }
       ]
     },
     {
       "id": "codex-thread-tools",
       "kind": "browser",
-      "enabled": false,
+      "enabled": true,
       "sourceFile": "capture/recipes/codex-thread-tools.ts",
-      "appearances": { "dark": true, "light": false },
+      "appearances": {
+        "dark": true,
+        "light": false
+      },
       "outputs": [
         {
           "id": "codex-thread-tools-still",
@@ -66,23 +107,46 @@
           "appearance": "dark",
           "path": "docs/public/media/codex-thread-tools/dark.png",
           "alt": "A LastCode thread showing deterministic output from the Codex thread tools.",
-          "license": "CC-BY-4.0"
+          "license": "CC-BY-4.0",
+          "record": {
+            "lastcodeCommit": "314e6a4bed6797e34b0ff878966d2f6aefd90d41",
+            "recipeHash": "25e8211063f84cd4473e8cdfdecc78bc25414cde2b2da903ee0a3605d131b658",
+            "fixtureVersion": 1,
+            "contentSha256": "e783ea156ed75fe57127b334879ab2bfed2490e34d2b0d663e3fb27827ee54d1",
+            "bytes": 349351,
+            "playwright": "1.63.0-alpha-2026-08-05",
+            "chromiumRevision": "1237",
+            "width": 1440,
+            "height": 900
+          }
         },
         {
           "id": "codex-thread-tools-output",
           "type": "text",
           "appearance": "dark",
           "path": "docs/public/media/codex-thread-tools/output.txt",
-          "license": "CC-BY-4.0"
+          "license": "CC-BY-4.0",
+          "record": {
+            "lastcodeCommit": "314e6a4bed6797e34b0ff878966d2f6aefd90d41",
+            "recipeHash": "25e8211063f84cd4473e8cdfdecc78bc25414cde2b2da903ee0a3605d131b658",
+            "fixtureVersion": 1,
+            "contentSha256": "04595c0997a63ff61461cc348feb6234425218b18007ca5ae834c9fe2dbf761f",
+            "bytes": 166,
+            "playwright": "1.63.0-alpha-2026-08-05",
+            "chromiumRevision": "1237"
+          }
         }
       ]
     },
     {
       "id": "thread-annotations",
       "kind": "browser",
-      "enabled": false,
+      "enabled": true,
       "sourceFile": "capture/recipes/thread-annotations.ts",
-      "appearances": { "dark": true, "light": false },
+      "appearances": {
+        "dark": true,
+        "light": false
+      },
       "outputs": [
         {
           "id": "thread-annotations-still",
@@ -90,7 +154,18 @@
           "appearance": "dark",
           "path": "docs/public/media/thread-annotations/dark.png",
           "alt": "A thread annotation visible in LastCode chat and the legacy sidebar.",
-          "license": "CC-BY-4.0"
+          "license": "CC-BY-4.0",
+          "record": {
+            "lastcodeCommit": "314e6a4bed6797e34b0ff878966d2f6aefd90d41",
+            "recipeHash": "f11a7f623ec4022e8be57a76442de21b73bfb343b85b59424c6e7a4aaa6aed82",
+            "fixtureVersion": 1,
+            "contentSha256": "d17f91ceeeeb60299b1a8dc73274899dd7447e1021f3162155bab9725ea0f26a",
+            "bytes": 357005,
+            "playwright": "1.63.0-alpha-2026-08-05",
+            "chromiumRevision": "1237",
+            "width": 1440,
+            "height": 900
+          }
         },
         {
           "id": "thread-annotations-poster",
@@ -98,7 +173,18 @@
           "appearance": "dark",
           "path": "docs/public/media/thread-annotations/poster-dark.png",
           "alt": "The thread annotation shown before the annotation recording starts.",
-          "license": "CC-BY-4.0"
+          "license": "CC-BY-4.0",
+          "record": {
+            "lastcodeCommit": "314e6a4bed6797e34b0ff878966d2f6aefd90d41",
+            "recipeHash": "f11a7f623ec4022e8be57a76442de21b73bfb343b85b59424c6e7a4aaa6aed82",
+            "fixtureVersion": 1,
+            "contentSha256": "d17f91ceeeeb60299b1a8dc73274899dd7447e1021f3162155bab9725ea0f26a",
+            "bytes": 357005,
+            "playwright": "1.63.0-alpha-2026-08-05",
+            "chromiumRevision": "1237",
+            "width": 1440,
+            "height": 900
+          }
         },
         {
           "id": "thread-annotations-video",
@@ -107,16 +193,29 @@
           "path": "docs/public/media/thread-annotations/demo-dark.webm",
           "posterId": "thread-annotations-poster",
           "transcript": "Edit the annotation, resolve it, then reopen it from the thread.",
-          "license": "CC-BY-4.0"
+          "license": "CC-BY-4.0",
+          "record": {
+            "lastcodeCommit": "314e6a4bed6797e34b0ff878966d2f6aefd90d41",
+            "recipeHash": "f11a7f623ec4022e8be57a76442de21b73bfb343b85b59424c6e7a4aaa6aed82",
+            "fixtureVersion": 1,
+            "contentSha256": "bd0244e8ba34420986c336121f53c8b13dd7628158173c49c94b58504012d1de",
+            "bytes": 175926,
+            "playwright": "1.63.0-alpha-2026-08-05",
+            "chromiumRevision": "1237",
+            "durationSeconds": 3.36
+          }
         }
       ]
     },
     {
       "id": "workspace-overview",
       "kind": "browser",
-      "enabled": false,
+      "enabled": true,
       "sourceFile": "capture/recipes/workspace-overview.ts",
-      "appearances": { "dark": true, "light": false },
+      "appearances": {
+        "dark": true,
+        "light": false
+      },
       "outputs": [
         {
           "id": "workspace-overview-still",
@@ -125,7 +224,18 @@
           "path": "docs/public/media/workspace/dark.png",
           "readmePath": "docs/public/media/readme/workspace-dark.png",
           "alt": "LastCode in the Ocean theme with a scaled legacy sidebar, a thread annotation, and a resumable action running in the active chat.",
-          "license": "CC-BY-4.0"
+          "license": "CC-BY-4.0",
+          "record": {
+            "lastcodeCommit": "314e6a4bed6797e34b0ff878966d2f6aefd90d41",
+            "recipeHash": "0f4ed8e8fefedc9090ea997d0dbe15ab1678bb5c3f7a5e1b4e6b94e880e299c1",
+            "fixtureVersion": 1,
+            "contentSha256": "044cd8409846136993d5f4cc7783e9bcd1880be1abe5444fb77f1b8690dc4828",
+            "bytes": 374957,
+            "playwright": "1.63.0-alpha-2026-08-05",
+            "chromiumRevision": "1237",
+            "width": 1440,
+            "height": 900
+          }
         }
       ]
     },
@@ -134,7 +244,10 @@
       "kind": "manual-cap",
       "enabled": false,
       "sourceFile": null,
-      "appearances": { "dark": true, "light": false },
+      "appearances": {
+        "dark": true,
+        "light": false
+      },
       "outputs": [
         {
           "id": "local-nightly-poster",
